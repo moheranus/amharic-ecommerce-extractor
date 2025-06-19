@@ -130,6 +130,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+config.ini
 env/
 venv/
 ENV/
@@ -191,4 +192,5 @@ cython_debug/
 #  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
-.cursorindexingignore
+.cursorindexingignoreconfig.ini
+session_name.session

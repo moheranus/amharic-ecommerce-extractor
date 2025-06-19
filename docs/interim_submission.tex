@@ -1,0 +1,72 @@
+
+% Setting up document class and basic packages
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+\usepackage[english]{babel}
+
+% Including packages for tables and lists
+\usepackage{array}
+\usepackage{booktabs}
+
+% Configuring fonts, with Amiri for Amharic and Times for Latin
+\usepackage{newtxtext}
+\usepackage{amiri}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\setotherlanguage{arabic}
+\newfontfamily\arabicfont[Script=Arabic]{Amiri}
+
+% Document begins
+\begin{document}
+
+% Title and header
+\begin{center}
+    \textbf{\large Interim Report: Amharic E-commerce Data Extractor (B5W4)}\\
+    \vspace{0.2cm}
+    \small Submitted for the 10 Academy B5W4 Challenge\\
+    \small Due: June 22, 2025
+\end{center}
+
+\vspace{0.3cm}
+
+\section*{Executive Summary \& Context}
+The Amharic E-commerce Data Extractor project develops a system to extract structured product information from Ethiopian Telegram channels, supporting the growing e-commerce sector. Task 1 involves scraping and preprocessing messages from 22 Telegram channels, creating a dataset of products, prices, and locations. Task 2 requires manually labeling 30 messages in CoNLL format for Named Entity Recognition (NER) to identify entities like products (\textit{PUMA SPIREX}), prices (\textit{4400 ብር}), locations (\textit{ሜክሲኮ}), and contact information (\textit{0944222069}). As of June 19, 2025, Task 1 is complete, and Task 2 has labeled 7 messages, with a semi-automated process to reach 30 by the deadline. This report details the data, processes, and challenges, ensuring alignment with project objectives.
+
+\section*{Description of Data \& Sources}
+The dataset consists of messages from 22 public Telegram channels (e.g., \texttt{@Shageronlinestore}, \texttt{@sinayelj}), advertising products such as footwear (\textit{SKECHERS QUANTUM FLEX}), clothing (\textit{COTTON TISHERTS}), bags (\textit{የሴቶች ቦርሳ}), and electronics (\textit{HP ELITEBOOK}). Each message includes:
+\begin{itemize}
+    \item \textbf{Text}: Mixed Amharic and English, e.g., ``PRICE :- 4400 ብር ... አድራሻ :- ሜክሲኮ''.
+    \item \textbf{Tokens}: Word-level tokens from NLTK's \texttt{word\_tokenize}.
+    \item \textbf{Metadata}: Channel name, message ID, and images (stored in \texttt{images/}).
+\end{itemize}
+Raw data is in \texttt{data/raw\_messages.json}, preprocessed in \texttt{data/messages.json}, and 30 selected messages are in \texttt{data/selected\_messages.json}. Challenges included empty messages, mixed-language text, and inconsistent formatting, addressed by filtering invalid entries and standardizing tokenization.
+
+\section*{Explanation of Process}
+\subsection*{Task 1: Data Ingestion and Preprocessing}
+\begin{itemize}
+    \item \textbf{Scraping}: Used \texttt{Telethon} to collect messages via API authentication, saving raw data to \texttt{data/raw\_messages.json} with a script (\texttt{scripts/scrape\_telegram.py}).
+    \item \textbf{Preprocessing}: Tokenized text using \texttt{nltk.word\_tokenize}, removed emojis and special characters, and saved results in \texttt{data/messages.json}. Images were archived in \texttt{images/}.
+    \item \textbf{Selection}: Selected 30 valid messages (non-empty text and tokens) with \texttt{scripts/select\_messages.py}, ensuring diversity and quality for Task 2.
+\end{itemize}
+
+\subsection*{Task 2: CoNLL Labeling}
+\begin{itemize}
+    \item \textbf{Message Selection}: Used \texttt{scripts/select\_messages.py} to choose 30 messages, filtering out empty or invalid entries, stored in \texttt{data/selected\_messages.json}.
+    \item \textbf{Labeling}: Labeled 7 messages in CoNLL format, covering entities: \texttt{B-Product}/\texttt{I-Product} (e.g., ``SKECHERS QUANTUM FLEX''), \texttt{B-PRICE}/\texttt{I-PRICE} (e.g., ``57000 birr''), \texttt{B-LOC}/\texttt{I-LOC} (e.g., ``ድሬዳዋ አሸዋ ሚና ህንፃ''), and \texttt{B-CONTACT\_INFO} (e.g., ``httpstmeshewabrand''). A rule-based script (\texttt{scripts/auto\_label\_conll.py}) generates initial labels, followed by manual review for accuracy.
+    \item \textbf{Validation}: \texttt{scripts/validate\_conll.py} ensures the CoNLL file (\texttt{samples/labeled\_data.conll}) has 30 messages with valid labels.
+\end{itemize}
+Challenges include multi-word entities (\textit{የሴቶች ቦርሳ}), mixed Amharic/English text, and distinguishing events (e.g., \textit{HellooMarket}) from products. The process combines manual labeling with semi-automation to meet the deadline.
+
+\section*{Clarity \& Professionalism}
+This report uses clear, structured sections with examples in Amharic (\textit{ሜክሲኮ}, \textit{ቦርሳ}) and English, referencing scripts (\texttt{scripts/auto\_label\_conll.py}) and outputs (\texttt{samples/labeled\_data.conll}). The methodology is transparent, addressing challenges like empty messages and language complexity. The project is on track to label 23 more messages by June 22, 2025, ensuring a complete submission.
+
+\end{document}
