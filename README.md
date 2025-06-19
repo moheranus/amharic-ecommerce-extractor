@@ -18,6 +18,18 @@ task-4-model-comparison/: Model comparison scripts.
 task-5-model-interpretability/: SHAP/LIME analysis.
 task-6-vendor-scorecard/: Vendor analytics engine.
 docs/: PDF reports and documentation.
+## Task 2: CoNLL Labeling
+- **Scripts**: `scripts/select_messages.py`, `scripts/print_messages_for_labeling.py`, `scripts/auto_label_conll.py`, `scripts/validate_conll.py`
+- **Functionality**: Selects 30 messages, applies rule-based labeling with manual review for NER (Product, Price, Location, Contact Info).
+- **Output**: `samples/labeled_data.conll`
+- **Usage**:
+  ```bash
+  python scripts/select_messages.py
+  python scripts/print_messages_for_labeling.py
+  python scripts/auto_label_conll.py
+  python scripts/validate_conll.py
+
+
 
 Setup Instructions
 
